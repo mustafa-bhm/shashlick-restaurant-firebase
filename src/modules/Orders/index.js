@@ -1,23 +1,20 @@
 import orders from "../../assets/data/orders.json";
 import { Card, Table, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
-// firebase
 import { db } from "../../firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { ref, onValue } from "firebase/database";
 
 const Orders = () => {
-  /// firebase
-  const ordersCollectionRef = collection(db, "orders");
-
-  const getallOrders = async () => {
-    try {
-      let orderB = await getDocs(ordersCollectionRef);
-      console.log(orderB);
-    } catch (err) {
-      console.log(err);
-    }
+  // get order from firebase
+  const getOrders = () => {
+    const ordersRef = ref(db, "orders");
+    onValue(ordersRef, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data);
+    });
   };
-  getallOrders();
+  getOrders();
+
   ///
   const navigate = useNavigate();
 
