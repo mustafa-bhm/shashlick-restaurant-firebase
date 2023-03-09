@@ -1,19 +1,28 @@
-import orders from "../../assets/data/orders.json";
+// import orders from "../../assets/data/orders.json";
 import { Card, Table, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
+
+//firebase
+import { useEffect, useState } from "react";
 import { db } from "../../firebase";
-import { ref, onValue } from "firebase/database";
+import { ref, onValue, get } from "firebase/database";
 
 const Orders = () => {
+  const [orders, setOrders] = useState({});
+
   // get order from firebase
   const getOrders = () => {
     const ordersRef = ref(db, "orders");
     onValue(ordersRef, (snapshot) => {
       const data = snapshot.val();
-      console.log(data);
+      setOrders(data);
     });
   };
-  getOrders();
+
+  useEffect(() => {
+    getOrders();
+  }, []);
+  console.log("ordeeers", orders);
 
   ///
   const navigate = useNavigate();
@@ -57,14 +66,15 @@ const Orders = () => {
 
   return (
     <Card title={"Orders"} style={{ margin: 20 }}>
-      <Table
+      {/* <Table
         dataSource={orders}
         columns={tableColumns}
         rowKey="orderID"
         onRow={(orderItem) => ({
           onClick: () => navigate(`order/${orderItem.orderID}`),
         })}
-      />
+      /> */}
+      {}
     </Card>
   );
 };
