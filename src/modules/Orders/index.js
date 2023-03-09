@@ -8,41 +8,20 @@ import { db } from "../../firebase";
 import { ref, onValue, get } from "firebase/database";
 
 const Orders = () => {
-  const [orders, setOrders] = useState({});
+  const [orders, setOrders] = useState([]);
 
   // get order from firebase
-  const getOrders = () => {
-    const ordersRef = ref(db, "orders");
-    onValue(ordersRef, (snapshot) => {
-      const data = snapshot.exportVal();
-      const dataEntries = Object.entries(data);
-
-      console.log("entries 1st id", dataEntries);
-      console.log("entries 1st id", dataEntries[0][0]);
-      console.log("entries 1st created at", dataEntries[0][1].createdAt);
-      console.log("entries 1st dish title", dataEntries[0][1].items[0].title);
-      console.log(
-        "entries customer street name ",
-        dataEntries[0][1].orderedFromCustomer.streetName
-      );
-      console.log(
-        "entries customer street number ",
-        dataEntries[0][1].orderedFromCustomer.streetNumber
-      );
-      console.log(
-        "entries customer street postal code ",
-        dataEntries[0][1].orderedFromCustomer.postalCode
-      );
-      console.log("entries price", dataEntries[0][1].items[0].price);
-      console.log("entries status", dataEntries[0][1].status.ordered);
-      setOrders(dataEntries);
-    });
-  };
-
+  const ordersRef = ref(db, "orders");
   useEffect(() => {
-    getOrders();
+    onValue(ordersRef, (snapshot) => {
+      setOrders([]);
+      const data = snapshot.exportVal();
+      // setOrders(Object.entries(data));
+      setOrders(Object.entries(data));
+    });
   }, []);
 
+  console.log("ordersss", orders);
   const navigate = useNavigate();
 
   const renderOrderStatus = (orderStatus) => {
@@ -102,6 +81,9 @@ const Orders = () => {
           <>
             <p>order ID {order[0]}</p>
             <p>created At {order[1].createdAt}</p>
+            <p>Delivery Address {order[1].orderedFromCustomer.streetName}</p>
+            <p>Price {order[1].createdAt}</p>
+            <p>Status {order[1].createdAt}</p>
           </>
         );
       })}
