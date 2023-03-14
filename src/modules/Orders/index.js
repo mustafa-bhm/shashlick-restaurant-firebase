@@ -36,58 +36,36 @@ const Orders = () => {
     }
   };
 
-  const tableColumns = [
-    {
-      title: "Order ID",
-      dataIndex: "orderID",
-      key: "orderID",
-    },
-    {
-      title: "Delivery Address",
-      dataIndex: "deliveryAddress",
-      key: "deliveryAddress",
-    },
-    {
-      title: "Price",
-      dataIndex: "price",
-      key: "price",
-      render: (price) => `${price} $`,
-    },
-    {
-      title: "Status",
-      dataIndex: "status",
-      key: "status",
-      render: renderOrderStatus,
-    },
-  ];
-
+  // console.log("entries price", dataEntries[0][1].items[0].price);
+  console.log(orders);
   return (
-    // <Card title={"Orders"} style={{ margin: 20 }}>
-    //   {/* <Table
-    //     dataSource={orders}
-    //     columns={tableColumns}
-    //     rowKey="orderID"
-    //     onRow={(orderItem) => ({
-    //       onClick: () => navigate(`order/${orderItem.orderID}`),
-    //     })}
-    //   /> */}
-
-    // </Card>;
-
-    <div>
-      orders
-      {orders.map((order, key) => {
-        return (
-          <>
-            <p>order ID {order[0]}</p>
-            <p>created At {order[1].createdAt}</p>
-            <p>Delivery Address {order[1].orderedFromCustomer.streetName}</p>
-            <p>Price {order[1].createdAt}</p>
-            <p>Status {order[1].createdAt}</p>
-          </>
-        );
-      })}
-    </div>
+    <Card title={"Orders"} style={{ margin: 20 }}>
+      <table>
+        <thead>
+          <tr>
+            <th>Order ID</th>
+            <th>Created At</th>
+            <th>Address</th>
+            <th>Price</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order[0]}>
+              <td>{order[0]}</td>
+              <td>{order[1].createdAt}</td>
+              <td>
+                {order[1].orderedFromCustomer.streetName}{" "}
+                {order[1].orderedFromCustomer.postalCode}
+              </td>
+              <td>{order[1].items[0].price} </td>
+              <td>status</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </Card>
   );
 };
 
