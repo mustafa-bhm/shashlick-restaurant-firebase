@@ -35,6 +35,7 @@ const Orders = () => {
       return <Tag color={"red"}>{orderStatus}</Tag>;
     }
   };
+  // to get time passed since the order was placed
   function getTimeAgo(dateString) {
     const now = new Date();
     const date = new Date(dateString);
@@ -60,10 +61,15 @@ const Orders = () => {
       return Math.round(diff / msPerYear) + " years ago";
     }
   }
-  const dateString =
-    "Wed Mar 14 2023 13:05:18 GMT-0700 (Mountain Standard Time)";
-  const timeAgo = getTimeAgo(dateString);
-  console.log(timeAgo);
+
+  // to get the status
+  function getStatus(obj) {
+    for (const key in obj) {
+      if (obj[key] === true) {
+        return key;
+      }
+    }
+  }
 
   // console.log("entries price", dataEntries[0][1].items[0].price);
   console.log(orders);
@@ -93,7 +99,10 @@ const Orders = () => {
               <td style={{ textAlign: "center" }}>
                 {order[1].items[0].price}{" "}
               </td>
-              <td style={{ textAlign: "center" }}>status</td>
+              <td style={{ textAlign: "center" }}>
+                {" "}
+                {getStatus(order[1].status)}
+              </td>
             </tr>
           ))}
         </tbody>
