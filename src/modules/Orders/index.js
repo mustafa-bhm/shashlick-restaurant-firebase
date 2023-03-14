@@ -35,6 +35,35 @@ const Orders = () => {
       return <Tag color={"red"}>{orderStatus}</Tag>;
     }
   };
+  function getTimeAgo(dateString) {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diff = now - date;
+
+    const msPerMinute = 60 * 1000;
+    const msPerHour = msPerMinute * 60;
+    const msPerDay = msPerHour * 24;
+    const msPerMonth = msPerDay * 30;
+    const msPerYear = msPerDay * 365;
+
+    if (diff < msPerMinute) {
+      return Math.round(diff / 1000) + " seconds ago";
+    } else if (diff < msPerHour) {
+      return Math.round(diff / msPerMinute) + " minutes ago";
+    } else if (diff < msPerDay) {
+      return Math.round(diff / msPerHour) + " hours ago";
+    } else if (diff < msPerMonth) {
+      return Math.round(diff / msPerDay) + " days ago";
+    } else if (diff < msPerYear) {
+      return Math.round(diff / msPerMonth) + " months ago";
+    } else {
+      return Math.round(diff / msPerYear) + " years ago";
+    }
+  }
+  const dateString =
+    "Wed Mar 14 2023 13:05:18 GMT-0700 (Mountain Standard Time)";
+  const timeAgo = getTimeAgo(dateString);
+  console.log(timeAgo);
 
   // console.log("entries price", dataEntries[0][1].items[0].price);
   console.log(orders);
@@ -43,24 +72,28 @@ const Orders = () => {
       <table>
         <thead>
           <tr>
-            <th>Order ID</th>
-            <th>Created At</th>
-            <th>Address</th>
-            <th>Price</th>
-            <th>Status</th>
+            <th style={{ width: "14rem" }}>Order ID</th>
+            <th style={{ width: "10rem" }}>Created At</th>
+            <th style={{ width: "10rem" }}>Address</th>
+            <th style={{ width: "10rem" }}>Price</th>
+            <th style={{ width: "10rem" }}>Status</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
             <tr key={order[0]}>
               <td>{order[0]}</td>
-              <td>{order[1].createdAt}</td>
-              <td>
+              <td style={{ textAlign: "center" }}>
+                {getTimeAgo(order[1].createdAt)}
+              </td>
+              <td style={{ textAlign: "center" }}>
                 {order[1].orderedFromCustomer.streetName}{" "}
                 {order[1].orderedFromCustomer.postalCode}
               </td>
-              <td>{order[1].items[0].price} </td>
-              <td>status</td>
+              <td style={{ textAlign: "center" }}>
+                {order[1].items[0].price}{" "}
+              </td>
+              <td style={{ textAlign: "center" }}>status</td>
             </tr>
           ))}
         </tbody>
