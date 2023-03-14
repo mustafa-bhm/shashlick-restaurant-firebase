@@ -22,10 +22,9 @@ const Settings = () => {
     setCoordinates(latLng);
   };
 
-  const createNewRestaurant = () => {
-    const reference = ref(db, "restaurants/");
-
-    let newRestaurant = {
+  const createNewRestaurant = async () => {
+    let restaurantProfile = {
+      Id: "",
       name: name,
       image:
         "https://cdn.oliverbonacininetwork.com/uploads/sites/42/2022/04/Canoe-Interior-Evening-Vibes-5170.jpg",
@@ -35,10 +34,16 @@ const Settings = () => {
       address: address.label,
       lat: coordinates.lat,
       lng: coordinates.lng,
+      user: "Tom",
     };
-    set(reference, newRestaurant);
+    set(ref(db, `/restaurants/${restaurantProfile.Id}`), {
+      restaurantProfile,
+      createdAt: new Date().toString(),
+    }).catch((err) => {
+      console.log("err", err);
+    });
 
-    setRestaurant(newRestaurant);
+    setRestaurant(restaurantProfile);
 
     message.success("Restaurant has been created !");
   };
