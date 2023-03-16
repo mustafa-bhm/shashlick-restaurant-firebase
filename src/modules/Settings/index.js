@@ -23,7 +23,6 @@ const Settings = () => {
   const navigate = useNavigate();
 
   const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
-  // console.log("uuid", uuidv4());
 
   const getAddressLatLng = async (address) => {
     setAddress(address);

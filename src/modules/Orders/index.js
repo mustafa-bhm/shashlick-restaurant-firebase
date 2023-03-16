@@ -21,7 +21,6 @@ const Orders = () => {
     });
   }, []);
 
-  console.log("ordersss", orders);
   const navigate = useNavigate();
 
   const renderOrderStatus = (orderStatus) => {
@@ -71,8 +70,6 @@ const Orders = () => {
     }
   }
 
-  // console.log("entries price", dataEntries[0][1].items[0].price);
-  console.log(orders);
   return (
     <Card title={"Orders"} style={{ margin: 20 }}>
       <table>
@@ -99,8 +96,10 @@ const Orders = () => {
               <td style={{ textAlign: "center" }}>
                 {order[1].items[0].price}{" "}
               </td>
-              <td style={{ textAlign: "center" }}>
-                {" "}
+              <td
+                style={{ textAlign: "center" }}
+                onClick={() => navigate(`order/${order[0]}`)}
+              >
                 {getStatus(order[1].status)}
               </td>
             </tr>
