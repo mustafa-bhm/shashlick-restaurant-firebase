@@ -19,32 +19,29 @@ const DetailedOrder = () => {
     });
   }, []);
 
-  // console.log("order", order);
+  // console.log("order", order?.items[0]?.title);
 
   return (
     <Card title={`Order ${id}`} style={{ margin: 20 }}>
       <Descriptions bordered column={{ lg: 1, md: 1, sm: 1 }}>
-        <Descriptions.Item label="Customer">Mustafa</Descriptions.Item>
+        <Descriptions.Item label="Customer">
+          {order?.orderedFromCustomer.firstName}
+        </Descriptions.Item>
         <Descriptions.Item label="Customer Address">
-          Address 15-29, City, Country
+          {order?.orderedFromCustomer.streetName},
+          {order?.orderedFromCustomer.streetNumber},
+          {order?.orderedFromCustomer.postalCode}
         </Descriptions.Item>
       </Descriptions>
       <Divider />
-      <List
-        dataSource={dishes}
-        renderItem={(dishItem) => (
-          <List.Item>
-            <div style={{ fontWeight: "bold" }}>
-              {dishItem.name} x{dishItem.quantity}
-            </div>
-            <div>${dishItem.price}</div>
-          </List.Item>
-        )}
-      />
+      <div style={styles.dishes}>
+        <div style={{ fontWeight: "bold" }}>{order?.items[0].title}</div>
+        <div>{order?.items[0].price}</div>
+      </div>
       <Divider />
       <div style={styles.totalSumContainer}>
         <h2>Total:</h2>
-        <h2 style={styles.totalPrice}>$42.96</h2>
+        <h2 style={styles.totalPrice}>{order?.items[0]?.price}</h2>
       </div>
       <Divider />
       <div style={styles.buttonsContainer}>
@@ -78,6 +75,10 @@ const styles = {
   button: {
     marginRight: 20,
     marginLeft: 20,
+  },
+  dishes: {
+    display: "flex",
+    justifyContent: "space-between",
   },
 };
 
