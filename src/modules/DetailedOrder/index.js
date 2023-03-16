@@ -1,9 +1,25 @@
 import { Card, Descriptions, Divider, List, Button } from "antd";
 import dishes from "../../assets/data/dishes.json";
 import { useParams } from "react-router-dom";
+import { get, onValue, ref } from "firebase/database";
+import { db } from "../../firebase";
+import { useEffect, useState } from "react";
 
 const DetailedOrder = () => {
   const { id } = useParams();
+  const [order, setOrder] = useState([]);
+
+  // fetch order details by order id from firebase
+  const ordersRef = ref(db, `orders/${id}`);
+  useEffect(() => {
+    get(ordersRef).then((snapshot) => {
+      const data = snapshot.val();
+      // console.log("Order details:", data);
+      setOrder(data);
+    });
+  }, []);
+
+  // console.log("order", order);
 
   return (
     <Card title={`Order ${id}`} style={{ margin: 20 }}>
