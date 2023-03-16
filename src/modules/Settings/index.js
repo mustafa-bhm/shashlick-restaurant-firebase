@@ -7,13 +7,19 @@ import GooglePlacesAutocomplete, {
 import { async } from "@firebase/util";
 import { ref, set } from "firebase/database";
 import { db } from "../../firebase";
+import { v4 as uuidv4 } from "uuid";
 
 const Settings = () => {
-  const [name, setName] = useState("");
+  const [restName, setRestName] = useState("");
   const [address, setAddress] = useState(null);
   const [coordinates, setCoordinates] = useState(null);
-  const [restaurant, setRestaurant] = useState({});
+  const [restaurant, setRestaurant] = useState("");
+  const [deliveryFees, setDeliveryFees] = useState("");
+  const [minDeliveryTime, setminDeliveryTime] = useState("");
+  const [maxDeliveryTime, setmanDeliveryTime] = useState("");
+  const [userName, setUserName] = useState("");
   const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
+  // console.log("uuid", uuidv4());
 
   const getAddressLatLng = async (address) => {
     setAddress(address);
@@ -24,8 +30,8 @@ const Settings = () => {
 
   const createNewRestaurant = async () => {
     let restaurantProfile = {
-      Id: "",
-      name: name,
+      Id: uuidv4(),
+      name: restName,
       image:
         "https://cdn.oliverbonacininetwork.com/uploads/sites/42/2022/04/Canoe-Interior-Evening-Vibes-5170.jpg",
       deliveryFee: 0,
@@ -36,15 +42,14 @@ const Settings = () => {
       lng: coordinates.lng,
       user: "Tom",
     };
+
     set(ref(db, `/restaurants/${restaurantProfile.Id}`), {
       restaurantProfile,
       createdAt: new Date().toString(),
     }).catch((err) => {
       console.log("err", err);
     });
-
     setRestaurant(restaurantProfile);
-
     message.success("Restaurant has been created !");
   };
 
@@ -58,10 +63,51 @@ const Settings = () => {
         <Form.Item label="Restaurant Name" required>
           <Input
             placeholder="Enter restaurant name here"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={restName}
+            onChange={(e) => setRestName(e.target.value)}
           />
         </Form.Item>
+
+        <Form.Item label="Delivery fees" required>
+          <Input
+            placeholder="Enter delivery fees"
+            value={restName}
+            onChange={(e) => setRestName(e.target.value)}
+          />
+        </Form.Item>
+
+        <Form.Item label="Restaurant Name" required>
+          <Input
+            placeholder="Enter restaurant name here"
+            value={restName}
+            onChange={(e) => setRestName(e.target.value)}
+          />
+        </Form.Item>
+
+        <Form.Item label="Min delivery time " required>
+          <Input
+            placeholder="Enter restaurant name here"
+            value={restName}
+            onChange={(e) => setRestName(e.target.value)}
+          />
+        </Form.Item>
+
+        <Form.Item label="Max Delivery time" required>
+          <Input
+            placeholder="Enter restaurant name here"
+            value={restName}
+            onChange={(e) => setRestName(e.target.value)}
+          />
+        </Form.Item>
+
+        <Form.Item label="User's name" required>
+          <Input
+            placeholder="Enter your user's name here"
+            value={restName}
+            onChange={(e) => setRestName(e.target.value)}
+          />
+        </Form.Item>
+
         <Form.Item label="Restaurant Address" required>
           <GooglePlacesAutocomplete
             apiKey={API_KEY}
