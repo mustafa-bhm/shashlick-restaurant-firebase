@@ -16,8 +16,11 @@ const Settings = () => {
   const [restaurant, setRestaurant] = useState("");
   const [deliveryFees, setDeliveryFees] = useState("");
   const [minDeliveryTime, setminDeliveryTime] = useState("");
-  const [maxDeliveryTime, setmanDeliveryTime] = useState("");
+  const [maxDeliveryTime, setmaxDeliveryTime] = useState("");
   const [userName, setUserName] = useState("");
+  const [restImage, setRestImage] = useState("");
+  const [form] = Form.useForm();
+
   const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
   // console.log("uuid", uuidv4());
 
@@ -28,19 +31,34 @@ const Settings = () => {
     setCoordinates(latLng);
   };
 
+  //empty restaurant profile object
+
+  // let emptyObj = {
+  //   {
+  //     Id: "",
+  //     name: '',
+  //     image: '',
+  //     deliveryFee: '',
+  //     minDeliveryTime: '',
+  //     maxDeliveryTime: '',
+  //     address: '',
+  //     lat: '',
+  //     lng: '',
+  //     user: '',
+  //   };
+  // }
   const createNewRestaurant = async () => {
     let restaurantProfile = {
       Id: uuidv4(),
       name: restName,
-      image:
-        "https://cdn.oliverbonacininetwork.com/uploads/sites/42/2022/04/Canoe-Interior-Evening-Vibes-5170.jpg",
-      deliveryFee: 0,
-      minDeliveryTime: 15,
-      maxDeliveryTime: 120,
+      image: restImage,
+      deliveryFee: deliveryFees,
+      minDeliveryTime: minDeliveryTime,
+      maxDeliveryTime: maxDeliveryTime,
       address: address.label,
       lat: coordinates.lat,
       lng: coordinates.lng,
-      user: "Tom",
+      user: userName,
     };
 
     set(ref(db, `/restaurants/${restaurantProfile.Id}`), {
@@ -51,6 +69,7 @@ const Settings = () => {
     });
     setRestaurant(restaurantProfile);
     message.success("Restaurant has been created !");
+    form.resetFields();
   };
 
   return (
@@ -59,6 +78,7 @@ const Settings = () => {
         layout="vertical"
         wrapperCol={{ span: 8 }}
         onFinish={createNewRestaurant}
+        form={form}
       >
         <Form.Item label="Restaurant Name" required>
           <Input
@@ -68,43 +88,42 @@ const Settings = () => {
           />
         </Form.Item>
 
-        <Form.Item label="Delivery fees" required>
+        <Form.Item label="Delivery fees " required>
           <Input
             placeholder="Enter delivery fees"
-            value={restName}
-            onChange={(e) => setRestName(e.target.value)}
+            value={deliveryFees}
+            onChange={(e) => setDeliveryFees(e.target.value)}
           />
         </Form.Item>
 
-        <Form.Item label="Restaurant Name" required>
+        <Form.Item label="Min delivery time in min " required>
           <Input
-            placeholder="Enter restaurant name here"
-            value={restName}
-            onChange={(e) => setRestName(e.target.value)}
+            placeholder="Enter min delivery time"
+            value={minDeliveryTime}
+            onChange={(e) => setminDeliveryTime(e.target.value)}
           />
         </Form.Item>
 
-        <Form.Item label="Min delivery time " required>
+        <Form.Item label="Max Delivery time in min" required>
           <Input
-            placeholder="Enter restaurant name here"
-            value={restName}
-            onChange={(e) => setRestName(e.target.value)}
-          />
-        </Form.Item>
-
-        <Form.Item label="Max Delivery time" required>
-          <Input
-            placeholder="Enter restaurant name here"
-            value={restName}
-            onChange={(e) => setRestName(e.target.value)}
+            placeholder="Enter Max Delivery time"
+            value={maxDeliveryTime}
+            onChange={(e) => setmaxDeliveryTime(e.target.value)}
           />
         </Form.Item>
 
         <Form.Item label="User's name" required>
           <Input
             placeholder="Enter your user's name here"
-            value={restName}
-            onChange={(e) => setRestName(e.target.value)}
+            value={userName}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+        </Form.Item>
+        <Form.Item label="Restaurant Image" required>
+          <Input
+            placeholder="Enter your restaurant image link here"
+            value={restImage}
+            onChange={(e) => setRestImage(e.target.value)}
           />
         </Form.Item>
 
