@@ -4,10 +4,10 @@ import GooglePlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from "react-google-places-autocomplete";
-import { async } from "@firebase/util";
 import { ref, set } from "firebase/database";
 import { db } from "../../firebase";
 import { v4 as uuidv4 } from "uuid";
+import { useNavigate } from "react-router-dom";
 
 const Settings = () => {
   const [restName, setRestName] = useState("");
@@ -19,7 +19,8 @@ const Settings = () => {
   const [maxDeliveryTime, setmaxDeliveryTime] = useState("");
   const [userName, setUserName] = useState("");
   const [restImage, setRestImage] = useState("");
-  const [form] = Form.useForm();
+
+  const navigate = useNavigate();
 
   const API_KEY = process.env.REACT_APP_GOOGLE_API_KEY;
   // console.log("uuid", uuidv4());
@@ -31,22 +32,6 @@ const Settings = () => {
     setCoordinates(latLng);
   };
 
-  //empty restaurant profile object
-
-  // let emptyObj = {
-  //   {
-  //     Id: "",
-  //     name: '',
-  //     image: '',
-  //     deliveryFee: '',
-  //     minDeliveryTime: '',
-  //     maxDeliveryTime: '',
-  //     address: '',
-  //     lat: '',
-  //     lng: '',
-  //     user: '',
-  //   };
-  // }
   const createNewRestaurant = async () => {
     let restaurantProfile = {
       Id: uuidv4(),
@@ -69,7 +54,7 @@ const Settings = () => {
     });
     setRestaurant(restaurantProfile);
     message.success("Restaurant has been created !");
-    form.resetFields();
+    navigate("/");
   };
 
   return (
@@ -78,7 +63,6 @@ const Settings = () => {
         layout="vertical"
         wrapperCol={{ span: 8 }}
         onFinish={createNewRestaurant}
-        form={form}
       >
         <Form.Item label="Restaurant Name" required>
           <Input
