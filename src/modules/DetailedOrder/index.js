@@ -81,29 +81,36 @@ const DetailedOrder = () => {
         <h2 style={styles.totalPrice}>{dishPrice}</h2>
       </div>
       <Divider />
+
       <div style={styles.buttonsContainer}>
-        <Button
-          block
-          type="danger"
-          size="large"
-          style={styles.button}
-          onClick={declineOrder}
-        >
-          Decline Order
-        </Button>
-        <Button
-          block
-          type="primary"
-          size="large"
-          style={styles.button}
-          onClick={acceptOrder}
-        >
-          Accept Order
-        </Button>
+        {orderStatus.ordered === true && (
+          <>
+            <Button
+              block
+              type="danger"
+              size="large"
+              style={styles.button}
+              onClick={declineOrder}
+            >
+              Decline Order
+            </Button>
+            <Button
+              block
+              type="primary"
+              size="large"
+              style={styles.button}
+              onClick={acceptOrder}
+            >
+              Accept Order
+            </Button>
+          </>
+        )}
       </div>
-      <Button block type="primary" size="large" onClick={foodIsDone}>
-        Food Is Done
-      </Button>
+      {orderStatus.acceptedByRest === true && (
+        <Button block type="primary" size="large" onClick={foodIsDone}>
+          Food Is Done
+        </Button>
+      )}
     </Card>
   );
 };
