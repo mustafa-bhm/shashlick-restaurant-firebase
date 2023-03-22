@@ -48,6 +48,13 @@ const DetailedOrder = () => {
       .then(console.log("Status updated successfully !"))
       .catch((error) => console.log(error));
   };
+  const declineOrder = () => {
+    orderStatus.ordered = false;
+    orderStatus.declinedByRest = true;
+    update(ordersRef, { status: orderStatus })
+      .then(console.log("Status updated successfully !"))
+      .catch((error) => console.log(error));
+  };
 
   return (
     <Card title={`Order ${id}`} style={{ margin: 20 }}>
@@ -69,7 +76,13 @@ const DetailedOrder = () => {
       </div>
       <Divider />
       <div style={styles.buttonsContainer}>
-        <Button block type="danger" size="large" style={styles.button}>
+        <Button
+          block
+          type="danger"
+          size="large"
+          style={styles.button}
+          onClick={declineOrder}
+        >
           Decline Order
         </Button>
         <Button
