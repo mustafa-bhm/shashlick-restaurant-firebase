@@ -14,6 +14,7 @@ const DetailedOrder = () => {
   const [postalCode, setPostalCode] = useState();
   const [dishTitle, setDishTitle] = useState();
   const [dishPrice, setDishPrice] = useState();
+  const [orderStatus, setOrderStatus] = useState({});
 
   // fetch order details by order id from firebase
   const ordersRef = ref(db, `orders/${id}`);
@@ -25,13 +26,17 @@ const DetailedOrder = () => {
       setStreetName(data.orderedFromCustomer.streetName);
       setCustomerName(data.orderedFromCustomer.firstName);
       setStreetNumber(data.orderedFromCustomer.streetNumber);
-      setPostalCode(order.orderedFromCustomer.postalCode);
-      setDishTitle(order.items[0]?.title);
-      setDishPrice(order.items[0]?.price);
+      setPostalCode(data.orderedFromCustomer.postalCode);
+      setDishTitle(data.items[0]?.title);
+      setDishPrice(data.items[0]?.price);
+      setOrderStatus(data.status);
     });
   }, []);
-  console.log("Order details:", order);
-  ////
+
+  console.log("order status", orderStatus);
+
+  // Update order status
+  const acceptOrder = () => {};
 
   return (
     <Card title={`Order ${id}`} style={{ margin: 20 }}>
