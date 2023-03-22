@@ -1,7 +1,7 @@
 import { Card, Descriptions, Divider, List, Button } from "antd";
 import dishes from "../../assets/data/dishes.json";
 import { useParams } from "react-router-dom";
-import { get, onValue, ref } from "firebase/database";
+import { get, onValue, ref, update } from "firebase/database";
 import { db } from "../../firebase";
 import { useEffect, useState } from "react";
 
@@ -27,16 +27,27 @@ const DetailedOrder = () => {
       setCustomerName(data.orderedFromCustomer.firstName);
       setStreetNumber(data.orderedFromCustomer.streetNumber);
       setPostalCode(data.orderedFromCustomer.postalCode);
-      setDishTitle(data.items[0]?.title);
-      setDishPrice(data.items[0]?.price);
+      setDishTitle(data.items[0].title);
+      setDishPrice(data.items[0].price);
       setOrderStatus(data.status);
     });
   }, []);
 
   console.log("order status", orderStatus);
 
-  // Update order status
-  const acceptOrder = () => {};
+  // *** Update order status *** ///
+  const acceptOrder = () => {
+    // 1 = >  change ordered : true to false
+    orderStatus.ordered = false;
+
+    // 2 => add acceptedByRest: true
+    orderStatus["acceptedByRest"] = true;
+
+    // 3 => push these changes to the database
+    update(ordersRef, { status: orderStatus })
+      .then(console.log("Status updated successfully !"))
+      .catch((error) => console.log(error));
+  };
 
   return (
     <Card title={`Order ${id}`} style={{ margin: 20 }}>
@@ -61,7 +72,13 @@ const DetailedOrder = () => {
         <Button block type="danger" size="large" style={styles.button}>
           Decline Order
         </Button>
-        <Button block type="primary" size="large" style={styles.button}>
+        <Button
+          block
+          type="primary"
+          size="large"
+          style={styles.button}
+          onClick={acceptOrder}
+        >
           Accept Order
         </Button>
       </div>
