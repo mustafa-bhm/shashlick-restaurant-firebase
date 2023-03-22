@@ -39,8 +39,6 @@ const DetailedOrder = () => {
         <Descriptions.Item label="Customer">{customerName}</Descriptions.Item>
         <Descriptions.Item label="Customer Address">
           {streetName}, {postalCode}, {streetNumber}
-          {/* {order?.orderedFromCustomer?.streetNumber},
-          {order?.orderedFromCustomer?.postalCode} */}
         </Descriptions.Item>
       </Descriptions>
       <Divider />
