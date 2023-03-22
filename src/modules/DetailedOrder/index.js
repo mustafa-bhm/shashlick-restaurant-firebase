@@ -55,7 +55,13 @@ const DetailedOrder = () => {
       .then(console.log("Status updated successfully !"))
       .catch((error) => console.log(error));
   };
-
+  const foodIsDone = () => {
+    orderStatus.acceptedByRest = false;
+    orderStatus.prepared = true;
+    update(ordersRef, { status: orderStatus })
+      .then(console.log("Status updated successfully !"))
+      .catch((error) => console.log(error));
+  };
   return (
     <Card title={`Order ${id}`} style={{ margin: 20 }}>
       <Descriptions bordered column={{ lg: 1, md: 1, sm: 1 }}>
@@ -95,7 +101,7 @@ const DetailedOrder = () => {
           Accept Order
         </Button>
       </div>
-      <Button block type="primary" size="large">
+      <Button block type="primary" size="large" onClick={foodIsDone}>
         Food Is Done
       </Button>
     </Card>
