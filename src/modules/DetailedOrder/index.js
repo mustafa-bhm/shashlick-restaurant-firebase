@@ -8,40 +8,50 @@ import { useEffect, useState } from "react";
 const DetailedOrder = () => {
   const { id } = useParams();
   const [order, setOrder] = useState([]);
+  const [streetName, setStreetName] = useState();
+  const [customerName, setCustomerName] = useState();
+  const [streetNumber, setStreetNumber] = useState();
+  const [postalCode, setPostalCode] = useState();
+  const [dishTitle, setDishTitle] = useState();
+  const [dishPrice, setDishPrice] = useState();
 
   // fetch order details by order id from firebase
   const ordersRef = ref(db, `orders/${id}`);
   useEffect(() => {
     get(ordersRef).then((snapshot) => {
       const data = snapshot.val();
-      // console.log("Order details:", data);
-      setOrder(data);
+      console.log("Order details:", data);
+      setOrder(data || []);
+      setStreetName(data.orderedFromCustomer.streetName);
+      setCustomerName(data.orderedFromCustomer.firstName);
+      setStreetNumber(data.orderedFromCustomer.streetNumber);
+      setPostalCode(order.orderedFromCustomer.postalCode);
+      setDishTitle(order.items[0]?.title);
+      setDishPrice(order.items[0]?.price);
     });
   }, []);
-
-  // console.log("order", order?.items[0]?.title);
+  console.log("Order details:", order);
+  ////
 
   return (
     <Card title={`Order ${id}`} style={{ margin: 20 }}>
       <Descriptions bordered column={{ lg: 1, md: 1, sm: 1 }}>
-        <Descriptions.Item label="Customer">
-          {order?.orderedFromCustomer.firstName}
-        </Descriptions.Item>
+        <Descriptions.Item label="Customer">{customerName}</Descriptions.Item>
         <Descriptions.Item label="Customer Address">
-          {order?.orderedFromCustomer.streetName},
-          {order?.orderedFromCustomer.streetNumber},
-          {order?.orderedFromCustomer.postalCode}
+          {streetName}, {postalCode}, {streetNumber}
+          {/* {order?.orderedFromCustomer?.streetNumber},
+          {order?.orderedFromCustomer?.postalCode} */}
         </Descriptions.Item>
       </Descriptions>
       <Divider />
       <div style={styles.dishes}>
-        <div style={{ fontWeight: "bold" }}>{order?.items[0].title}</div>
-        <div>{order?.items[0].price}</div>
+        <div style={{ fontWeight: "bold" }}>{dishTitle}</div>
+        <div>{dishPrice}</div>
       </div>
       <Divider />
       <div style={styles.totalSumContainer}>
         <h2>Total:</h2>
-        <h2 style={styles.totalPrice}>{order?.items[0]?.price}</h2>
+        <h2 style={styles.totalPrice}>{dishPrice}</h2>
       </div>
       <Divider />
       <div style={styles.buttonsContainer}>
