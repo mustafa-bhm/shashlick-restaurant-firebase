@@ -1,5 +1,5 @@
 import { Card, Descriptions, Divider, List, Button } from "antd";
-import dishes from "../../assets/data/dishes.json";
+// import dishes from "../../assets/data/dishes.json";
 import { useParams } from "react-router-dom";
 import { get, onValue, ref, update } from "firebase/database";
 import { db } from "../../firebase";

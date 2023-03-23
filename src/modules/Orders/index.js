@@ -23,17 +23,17 @@ const Orders = () => {
 
   const navigate = useNavigate();
 
-  const renderOrderStatus = (orderStatus) => {
-    if (orderStatus === "Accepted") {
-      return <Tag color={"green"}>{orderStatus}</Tag>;
-    }
-    if (orderStatus === "Pending") {
-      return <Tag color={"orange"}>{orderStatus}</Tag>;
-    }
-    if (orderStatus === "Declined") {
-      return <Tag color={"red"}>{orderStatus}</Tag>;
-    }
-  };
+  // const renderOrderStatus = (orderStatus) => {
+  //   if (orderStatus === "Accepted") {
+  //     return <Tag color={"green"}>{orderStatus}</Tag>;
+  //   }
+  //   if (orderStatus === "Pending") {
+  //     return <Tag color={"orange"}>{orderStatus}</Tag>;
+  //   }
+  //   if (orderStatus === "Declined") {
+  //     return <Tag color={"red"}>{orderStatus}</Tag>;
+  //   }
+  // };
   // to get time passed since the order was placed
   function getTimeAgo(dateString) {
     const now = new Date();
@@ -97,7 +97,7 @@ const Orders = () => {
                 {order[1].items[0].price}{" "}
               </td>
               <td
-                style={{ textAlign: "center" }}
+                style={{ textAlign: "center", cursor: "pointer" }}
                 onClick={() => navigate(`order/${order[0]}`)}
               >
                 {getStatus(order[1].status)}
