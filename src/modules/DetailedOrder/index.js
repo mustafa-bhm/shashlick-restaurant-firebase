@@ -1,5 +1,4 @@
 import { Card, Descriptions, Divider, List, Button } from "antd";
-// import dishes from "../../assets/data/dishes.json";
 import { useParams } from "react-router-dom";
 import { get, onValue, ref, update } from "firebase/database";
 import { db } from "../../firebase";
@@ -7,6 +6,7 @@ import { useEffect, useState } from "react";
 
 const DetailedOrder = () => {
   const { id } = useParams();
+  const { zone } = useParams();
   const [order, setOrder] = useState([]);
   const [streetName, setStreetName] = useState();
   const [customerName, setCustomerName] = useState();
@@ -16,24 +16,21 @@ const DetailedOrder = () => {
   const [dishPrice, setDishPrice] = useState();
   const [orderStatus, setOrderStatus] = useState({});
 
-  // fetch order details by order id from firebase
-  const ordersRef = ref(db, `orders/${id}`);
+  // get order from firebase // orders zones
+  const ordersRef = ref(db, `order Zones/${zone}/${id}`);
   useEffect(() => {
-    get(ordersRef).then((snapshot) => {
-      const data = snapshot.val();
-      console.log("Order details:", data);
-      setOrder(data || []);
-      setStreetName(data.orderedFromCustomer.streetName);
-      setCustomerName(data.orderedFromCustomer.firstName);
-      setStreetNumber(data.orderedFromCustomer.streetNumber);
-      setPostalCode(data.orderedFromCustomer.postalCode);
-      setDishTitle(data.items[0].title);
-      setDishPrice(data.items[0].price);
-      setOrderStatus(data.status);
+    onValue(ordersRef, (snapshot) => {
+      const data = snapshot.exportVal();
+      let dataEntries = Object.entries(data);
+      setCustomerName(dataEntries[4][1].firstName);
+      setStreetNumber(dataEntries[4][1].streetNumber);
+      setStreetName(dataEntries[4][1].streetName);
+      setPostalCode(dataEntries[4][1].postalCode);
+      setDishTitle(dataEntries[3][1][0].title);
+      setDishPrice(dataEntries[3][1][0].price);
+      setOrderStatus(dataEntries[6][1]);
     });
   }, []);
-
-  console.log("order status", orderStatus);
 
   // *** Update order status *** ///
   const acceptOrder = () => {
@@ -67,7 +64,8 @@ const DetailedOrder = () => {
       <Descriptions bordered column={{ lg: 1, md: 1, sm: 1 }}>
         <Descriptions.Item label="Customer">{customerName}</Descriptions.Item>
         <Descriptions.Item label="Customer Address">
-          {streetName}, {postalCode}, {streetNumber}
+          {streetNumber} {streetName}
+          {postalCode}
         </Descriptions.Item>
       </Descriptions>
       <Divider />

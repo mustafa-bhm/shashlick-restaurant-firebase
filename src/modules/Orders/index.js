@@ -28,6 +28,8 @@ const Orders = () => {
       // setOrders([]);
       const data = snapshot.exportVal();
       setOrders(Object.entries(data));
+      // console.log("data", data);
+      // console.log("orders", orders);
     });
   }, []);
 
@@ -75,16 +77,17 @@ const Orders = () => {
         <thead>
           <tr>
             <th style={{ width: "14rem" }}>Order ID</th>
-            <th style={{ width: "10rem" }}>Created At</th>
-            <th style={{ width: "10rem" }}>Address</th>
+            <th style={{ width: "10rem" }}>Created </th>
+            <th style={{ width: "10rem" }}>Customer Address</th>
             <th style={{ width: "10rem" }}>Price</th>
-            <th style={{ width: "10rem" }}>Status</th>
+            <th style={{ width: "10rem" }}>Order Status</th>
           </tr>
         </thead>
         <tbody>
           {orders.map((order) => (
-            <tr key={order[0]}>
-              <td>{Object.entries(order[1])[0][1].ID}</td>
+            <tr key={Object.entries(order[1])[0][1].ID}>
+              {/* <td>{Object.entries(order[1])[0][1].ID}</td> */}
+              <td>{order[0]}</td>
               <td style={{ textAlign: "center" }}>
                 {getTimeAgo(Object.entries(order[1])[0][1].createdAt)}
               </td>
@@ -96,7 +99,11 @@ const Orders = () => {
               </td>
               <td
                 style={{ textAlign: "center", cursor: "pointer" }}
-                onClick={() => navigate(`order/${order[0]}`)}
+                onClick={() =>
+                  navigate(
+                    `order/${order[0]}/${Object.entries(order[1])[0][1].ID}`
+                  )
+                }
               >
                 {getStatus(Object.entries(order[1])[0][1].status)}
               </td>
