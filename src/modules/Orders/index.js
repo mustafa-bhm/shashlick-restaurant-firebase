@@ -1,4 +1,3 @@
-// import orders from "../../assets/data/orders.json";
 import { Card, Table, Tag } from "antd";
 import { useNavigate } from "react-router-dom";
 
@@ -9,17 +8,6 @@ import { ref, onValue, get } from "firebase/database";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
-
-  // get order from firebase
-  // const ordersRef = ref(db, "orders");
-  // useEffect(() => {
-  //   onValue(ordersRef, (snapshot) => {
-  //     setOrders([]);
-  //     const data = snapshot.exportVal();
-  //     // setOrders(Object.entries(data));
-  //     setOrders(Object.entries(data));
-  //   });
-  // }, []);
 
   // get order from firebase // orders zones
   const ordersRef = ref(db, "order Zones");
@@ -92,7 +80,10 @@ const Orders = () => {
                 {getTimeAgo(Object.entries(order[1])[0][1].createdAt)}
               </td>
               <td style={{ textAlign: "center" }}>
-                {Object.entries(order[1])[0][1].orderedFromCustomer.streetName}
+                {
+                  Object.entries(order[1])[0][1]?.orderedFromCustomer
+                    ?.streetName
+                }
               </td>
               <td style={{ textAlign: "center" }}>
                 {Object.entries(order[1])[0][1].items[0].price}

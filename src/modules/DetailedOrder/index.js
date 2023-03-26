@@ -81,35 +81,35 @@ const DetailedOrder = () => {
       <Divider />
 
       <div style={styles.buttonsContainer}>
-        {/* {orderStatus.ordered === true && (
-          <> */}
-        <Button
-          block
-          // type="primary"
-          size="large"
-          // style={styles.button}
-          style={{ background: "red", borderColor: "yellow" }}
-          onClick={declineOrder}
-        >
-          Decline Order
-        </Button>
-        <Button
-          block
-          type="primary"
-          size="large"
-          style={styles.button}
-          onClick={acceptOrder}
-        >
-          Accept Order
-        </Button>
-        {/* </> */}
-        {/* )} */}
+        {orderStatus.ordered === true && (
+          <>
+            <Button
+              block
+              // type="primary"
+              size="large"
+              // style={styles.button}
+              style={{ background: "red", borderColor: "yellow" }}
+              onClick={declineOrder}
+            >
+              Decline Order
+            </Button>
+            <Button
+              block
+              type="primary"
+              size="large"
+              style={styles.button}
+              onClick={acceptOrder}
+            >
+              Accept Order
+            </Button>
+          </>
+        )}
       </div>
-      {/* {orderStatus.acceptedByRest === true && ( */}
-      <Button block type="primary" size="large" onClick={foodIsDone}>
-        Food Is Done
-      </Button>
-      {/* )} */}
+      {orderStatus.acceptedByRest === true && (
+        <Button block type="primary" size="large" onClick={foodIsDone}>
+          Food Is Done
+        </Button>
+      )}
     </Card>
   );
 };
