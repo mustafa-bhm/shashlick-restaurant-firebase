@@ -87,9 +87,10 @@ const DetailedOrder = () => {
           <> */}
         <Button
           block
-          type="danger"
+          // type="primary"
           size="large"
-          style={styles.button}
+          // style={styles.button}
+          style={{ background: "red", borderColor: "yellow" }}
           onClick={declineOrder}
         >
           Decline Order
@@ -129,6 +130,10 @@ const styles = {
     paddingBottom: 30,
   },
   button: {
+    marginRight: 20,
+    marginLeft: 20,
+  },
+  buttonD: {
     marginRight: 20,
     marginLeft: 20,
   },

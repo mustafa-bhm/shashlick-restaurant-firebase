@@ -11,29 +11,28 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
 
   // get order from firebase
-  const ordersRef = ref(db, "orders");
+  // const ordersRef = ref(db, "orders");
+  // useEffect(() => {
+  //   onValue(ordersRef, (snapshot) => {
+  //     setOrders([]);
+  //     const data = snapshot.exportVal();
+  //     // setOrders(Object.entries(data));
+  //     setOrders(Object.entries(data));
+  //   });
+  // }, []);
+
+  // get order from firebase // orders zones
+  const ordersRef = ref(db, "order Zones");
   useEffect(() => {
     onValue(ordersRef, (snapshot) => {
-      setOrders([]);
+      // setOrders([]);
       const data = snapshot.exportVal();
-      // setOrders(Object.entries(data));
       setOrders(Object.entries(data));
     });
   }, []);
 
   const navigate = useNavigate();
 
-  // const renderOrderStatus = (orderStatus) => {
-  //   if (orderStatus === "Accepted") {
-  //     return <Tag color={"green"}>{orderStatus}</Tag>;
-  //   }
-  //   if (orderStatus === "Pending") {
-  //     return <Tag color={"orange"}>{orderStatus}</Tag>;
-  //   }
-  //   if (orderStatus === "Declined") {
-  //     return <Tag color={"red"}>{orderStatus}</Tag>;
-  //   }
-  // };
   // to get time passed since the order was placed
   function getTimeAgo(dateString) {
     const now = new Date();
@@ -85,22 +84,21 @@ const Orders = () => {
         <tbody>
           {orders.map((order) => (
             <tr key={order[0]}>
-              <td>{order[0]}</td>
+              <td>{Object.entries(order[1])[0][1].ID}</td>
               <td style={{ textAlign: "center" }}>
-                {getTimeAgo(order[1].createdAt)}
+                {getTimeAgo(Object.entries(order[1])[0][1].createdAt)}
               </td>
               <td style={{ textAlign: "center" }}>
-                {order[1].orderedFromCustomer.streetName}{" "}
-                {order[1].orderedFromCustomer.postalCode}
+                {Object.entries(order[1])[0][1].orderedFromCustomer.streetName}
               </td>
               <td style={{ textAlign: "center" }}>
-                {order[1].items[0].price}{" "}
+                {Object.entries(order[1])[0][1].items[0].price}
               </td>
               <td
                 style={{ textAlign: "center", cursor: "pointer" }}
                 onClick={() => navigate(`order/${order[0]}`)}
               >
-                {getStatus(order[1].status)}
+                {getStatus(Object.entries(order[1])[0][1].status)}
               </td>
             </tr>
           ))}
