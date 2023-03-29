@@ -1,5 +1,5 @@
-import { Menu } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { Menu } from "antd";
+import { useNavigate } from "react-router-dom";
 
 const SideMenu = () => {
   const navigate = useNavigate();
@@ -7,25 +7,34 @@ const SideMenu = () => {
   const menuItems = [
     {
       key: "/",
-      label: 'Orders'
+      label: "Orders",
     },
     {
       key: "menu",
-      label: 'Menu'
+      label: "Menu",
     },
     {
       key: "order-history",
-      label: 'Order History'
+      label: "Order History",
     },
     {
       key: "settings",
-      label: 'Settings'
-    }
+      label: "Settings",
+    },
+    {
+      key: "login",
+      label: "Login",
+    },
+    {
+      key: "signOut",
+      label: "Sign out",
+      danger: "true",
+    },
   ];
-  
+
   return (
-    <Menu items={menuItems} onClick={(menuItem) => navigate(menuItem.key)}/>
-  )
+    <Menu items={menuItems} onClick={(menuItem) => navigate(menuItem.key)} />
+  );
 };
 
 export default SideMenu;
