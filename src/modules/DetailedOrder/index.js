@@ -29,6 +29,7 @@ const DetailedOrder = () => {
       setDishTitle(dataEntries[3][1][0].title);
       setDishPrice(dataEntries[3][1][0].price);
       setOrderStatus(dataEntries[6][1]);
+      console.log("orders ", data);
     });
   }, []);
 

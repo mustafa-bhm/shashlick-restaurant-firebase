@@ -10,16 +10,19 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
 
   // get order from firebase // orders zones
-  const ordersRef = ref(db, "order Zones");
+  const ordersRef = ref(db, "order_Zones");
   useEffect(() => {
     onValue(ordersRef, (snapshot) => {
       // setOrders([]);
       const data = snapshot.exportVal();
-      setOrders(Object.entries(data));
-      // console.log("data", data);
+
+      // console.log("data entries", Object.entries(data));
       // console.log("orders", orders);
+
+      setOrders(Object.entries(data));
     });
   }, []);
+  // console.log("orders", orders);
 
   const navigate = useNavigate();
 
@@ -72,34 +75,30 @@ const Orders = () => {
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
-            <tr key={Object.entries(order[1])[0][1].ID}>
-              {/* <td>{Object.entries(order[1])[0][1].ID}</td> */}
-              <td>{order[0]}</td>
-              <td style={{ textAlign: "center" }}>
-                {getTimeAgo(Object.entries(order[1])[0][1].createdAt)}
-              </td>
-              <td style={{ textAlign: "center" }}>
-                {
-                  Object.entries(order[1])[0][1]?.orderedFromCustomer
-                    ?.streetName
-                }
-              </td>
-              <td style={{ textAlign: "center" }}>
-                {Object.entries(order[1])[0][1].items[0].price}
-              </td>
-              <td
-                style={{ textAlign: "center", cursor: "pointer" }}
-                onClick={() =>
-                  navigate(
-                    `order/${order[0]}/${Object.entries(order[1])[0][1].ID}`
-                  )
-                }
-              >
-                {getStatus(Object.entries(order[1])[0][1].status)}
-              </td>
-            </tr>
-          ))}
+          {orders.map((item) =>
+            Object.entries(item[1]).map((ord) => (
+              <>
+                <tr key={ord[0]}>
+                  <td>{ord[0]}</td>
+                  <td style={{ textAlign: "center" }}>
+                    {getTimeAgo(ord[1].createdAt)}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {ord[1].orderedFromCustomer.postalCode}
+                  </td>
+                  <td style={{ textAlign: "center" }}>
+                    {ord[1].items[0].price}
+                  </td>
+                  <td
+                    style={{ textAlign: "center", cursor: "pointer" }}
+                    onClick={() => navigate(`order/${item[0]}/${ord[0]}`)}
+                  >
+                    {getStatus(ord[1].status)}
+                  </td>
+                </tr>
+              </>
+            ))
+          )}
         </tbody>
       </table>
     </Card>
