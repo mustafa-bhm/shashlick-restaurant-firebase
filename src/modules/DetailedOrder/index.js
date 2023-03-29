@@ -17,7 +17,7 @@ const DetailedOrder = () => {
   const [orderStatus, setOrderStatus] = useState({});
 
   // get order from firebase // orders zones
-  const ordersRef = ref(db, `order Zones/${zone}/${id}`);
+  const ordersRef = ref(db, `order_Zones/${zone}/${id}`);
   useEffect(() => {
     onValue(ordersRef, (snapshot) => {
       const data = snapshot.exportVal();
@@ -29,7 +29,6 @@ const DetailedOrder = () => {
       setDishTitle(dataEntries[3][1][0].title);
       setDishPrice(dataEntries[3][1][0].price);
       setOrderStatus(dataEntries[6][1]);
-      console.log("orders ", data);
     });
   }, []);
 
@@ -86,10 +85,8 @@ const DetailedOrder = () => {
           <>
             <Button
               block
-              // type="primary"
               size="large"
-              // style={styles.button}
-              style={{ background: "red", borderColor: "yellow" }}
+              style={{ background: "red", color: "white" }}
               onClick={declineOrder}
             >
               Decline Order
